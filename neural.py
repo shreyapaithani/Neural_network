@@ -15,5 +15,6 @@ num_hiddenlayer=16
 np.random.seed(42)
 parameters['w1']=np.random.randn(input_size,hidden_size)*0.01
 parameters['b1']=np.zeros((1,hidden_size))
-u=parameter['1']
+for l in range(2,num_hidden_layers+1):
+parameters[f"w{num_hidden_layers+1}"]=np.random.randn(hidden_size,output_size)*0.01
 
