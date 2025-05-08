@@ -3,9 +3,9 @@ os.environment['TF_ENABLE_ONEDNN_OPTS']='0'
 import tensorflow as tf
 import numpy as np 
 from tf.keras.datasets import mnist 
-(X_train,Y_train),(X_test,Y_test)=minist.load_data()
+(X_train,Y_train),(X_test,Y_test)=mnist.load_data()
 X_train=X_train.reshape(X_train.shape[0],-1)/255.0
-X_test=X_test.reshape(X_test[0],-1)/255.0
+X_test=X_test.reshape(X_test.shape[0],-1)/255.0
 print("Training :{X_train.shape}")
 print("Testing:{X_test.shape})
 input_size=784
@@ -47,9 +47,36 @@ A_out=softmax(Z_out)
 cache[f"Z{num_hidden_layers + 1}"] = Z_out
 cache[f"A{num_hidden_layers + 1}"] = A_out
 return cache 
-#forward propagation running
-cache=forward_propagation(X_test,parameters)
- print("forward propagation with 16 layer completed ")
+# one hot encode labels
+def one_hot(Y, num_classes):
+    return np.eye(num_classes)[Y]
+
+
+    #back prpagation shuru
+def backward_propagation(X, Y, parameters, cache):
+    grads = {}
+    m = X.shape[0]
+    Y = one_hot(Y, output_size)
+
+    dZ = cache[f"A{num_hidden_layers + 1}"] - Y
+    grads[f"dW{num_hidden_layers + 1}"] = np.dot(cache[f"A{num_hidden_layers}"].T, dZ) / m
+    grads[f"db{num_hidden_layers + 1}"] = np.sum(dZ, axis=0, keepdims=True) / m
+
+    for l in reversed(range(1, num_hidden_layers + 1)):
+        dA = np.dot(dZ, parameters[f"W{l + 1}"].T)
+        dZ = dA * relu_derivative(cache[f"Z{l}"])
+        grads[f"dW{l}"] = np.dot(cache[f"A{l - 1}"].T, dZ) / m
+        grads[f"db{l}"] = np.sum(dZ, axis=0, keepdims=True) / m
+        print(f"Layer {l}: dW shape = {grads[f'dW{l}'].shape}, db shape = {grads[f'db{l}'].shape}")
+
+    return grads
+#printing both
+cache = forward_propagation(X_test[:100], parameters)
+print("Forward propagation with 16 layers completed")
+
+grads = backward_propagation(X_test[:100], Y_test[:100], parameters, cache)
+print("Backward propagation completed")
+
 
 
 
