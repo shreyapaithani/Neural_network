@@ -76,6 +76,7 @@ print("Forward propagation with 16 layers completed")
 
 grads = backward_propagation(X_test[:100], Y_test[:100], parameters, cache)
 print("Backward propagation completed")
+do
 
 
 
