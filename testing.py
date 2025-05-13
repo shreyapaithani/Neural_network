@@ -23,3 +23,20 @@ for epoch in range(epochs):
     print(f"Epoch {epoch+1}/{epochs}, Loss: {loss:.4f}")
 
 print("Training Complete!")
+
+def predict(X, W1, b1, W2, b2):
+    Z1 = np.dot(X, W1) + b1
+    A1 = np.maximum(0, Z1)  # ReLU
+    Z2 = np.dot(A1, W2) + b2
+    A2 = np.exp(Z2 - np.max(Z2, axis=1, keepdims=True))
+    A2 = A2 / np.sum(A2, axis=1, keepdims=True)
+    predictions = np.argmax(A2, axis=1)
+    return predictions
+
+# Predict on test data
+preds = predict(X_test, W1, b1, W2, b2)
+
+# Accuracy calculation
+accuracy = np.mean(preds == Y_test) * 100
+print("Test Accuracy:", accuracy, "%")
+
