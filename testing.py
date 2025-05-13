@@ -41,7 +41,3 @@ accuracy = np.mean(preds == Y_test) * 100
 print("Test Accuracy:", accuracy, "%")
 
 
-# Accuracy calculation
-accuracy = np.mean(preds == Y_test) * 100
-print("Test Accuracy:", accuracy, "%")
-
