@@ -40,3 +40,8 @@ preds = predict(X_test, W1, b1, W2, b2)
 accuracy = np.mean(preds == Y_test) * 100
 print("Test Accuracy:", accuracy, "%")
 
+
+# Accuracy calculation
+accuracy = np.mean(preds == Y_test) * 100
+print("Test Accuracy:", accuracy, "%")
+
