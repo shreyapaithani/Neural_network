@@ -41,3 +41,15 @@ accuracy = np.mean(preds == Y_test) * 100
 print("Test Accuracy:", accuracy, "%")
 
 
+def confusion_matrix(y_true, y_pred, num_classes=10):
+    cm = np.zeros((num_classes, num_classes), dtype=int)
+    for t, p in zip(y_true, y_pred):
+        cm[t, p] += 1
+    return cm
+
+# Call the function
+cm = confusion_matrix(Y_test, preds)
+
+# Display nicely
+print("Confusion Matrix:")
+print(cm)
