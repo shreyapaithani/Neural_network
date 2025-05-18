@@ -51,7 +51,6 @@ return cache
 def one_hot(Y, num_classes):
     return np.eye(num_classes)[Y]
 
-
     #back prpagation shuru
 def backward_propagation(X, Y, parameters, cache):
     grads = {}
